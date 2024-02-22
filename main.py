@@ -1,4 +1,5 @@
 import json
+import requests
 from bardapi import Bard
 from gemini import GeminiClient
 from fastapi import FastAPI
@@ -42,6 +43,21 @@ async def bardapi(question: str, cookie: str):
   if res["images"]:
     response["images"] = res["images"]
   return response
+
+@app.post("/render")
+async def render(commitId: str, renderId: str, serviceId: str):
+  url = "https://api.render.com/v1/services/" + serviceId + "/deploys"
+  payload = {
+    "clearCache": "do_not_clear",
+    "commitId": commitId
+  }
+  headers = {
+    "accept": "application/json",
+    "content-type": "application/json",
+    "authorization": "Bearer " + renderId
+  }
+  response = requests.post(url, json=payload, headers=headers)
+  return response.text
 
 
 if __name__ == '__main__':
