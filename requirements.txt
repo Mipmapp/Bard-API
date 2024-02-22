@@ -6,3 +6,6 @@ langdetect
 deep_translator
 google-cloud-translate
 browser_cookie3
+fastapi==0.109.2
+uvicorn==0.27.1
+gemini-webapi==0.3.0
